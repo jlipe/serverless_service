@@ -32,14 +32,15 @@ provider:
       statements: # permissions for all of your functions can be set here
         - Effect: Allow
           Action: # Gives permission to DynamoDB tables in a specific region
-            - dynamodb:DescribeTable
-            - dynamodb:Query
-            - dynamodb:Scan
-            - dynamodb:GetItem
-            - dynamodb:PutItem
-            - dynamodb:UpdateItem
-            - dynamodb:DeleteItem
-          Resource: 'arn:aws:dynamodb:us-east-1:514576071472:table/361_headlines'
+            - dynamodb:*
+            # - dynamodb:DescribeTable
+            # - dynamodb:Query
+            # - dynamodb:Scan
+            # - dynamodb:GetItem
+            # - dynamodb:PutItem
+            # - dynamodb:UpdateItem
+            # - dynamodb:DeleteItem
+          Resource: '*'
 
 # you can overwrite defaults here
 #  stage: dev
@@ -83,9 +84,7 @@ functions:
   getHeadlines:
     handler: handler.getHeadlines
     events:
-      - httpApi:
-          method: GET
-          path: /headlines
+      - httpApi: 'GET /headlines'
 
 plugins:
   - serverless-offline

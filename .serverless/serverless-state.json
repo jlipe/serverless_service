@@ -18,15 +18,9 @@
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:DescribeTable",
-                "dynamodb:Query",
-                "dynamodb:Scan",
-                "dynamodb:GetItem",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem"
+                "dynamodb:*"
               ],
-              "Resource": "arn:aws:dynamodb:us-east-1:514576071472:table/361_headlines"
+              "Resource": "*"
             }
           ]
         }
@@ -258,7 +252,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/headlineservice/dev/1642786716623-2022-01-21T17:38:36.623Z/headlineservice.zip"
+                "S3Key": "serverless/headlineservice/dev/1642798519296-2022-01-21T20:55:19.296Z/headlineservice.zip"
               },
               "Handler": "s_hello.handler",
               "Runtime": "nodejs12.x",
@@ -283,7 +277,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/headlineservice/dev/1642786716623-2022-01-21T17:38:36.623Z/headlineservice.zip"
+                "S3Key": "serverless/headlineservice/dev/1642798519296-2022-01-21T20:55:19.296Z/headlineservice.zip"
               },
               "Handler": "s_getHeadlines.handler",
               "Runtime": "nodejs12.x",
@@ -301,24 +295,24 @@
               "GetHeadlinesLogGroup"
             ]
           },
-          "HelloLambdaVersionPqzXysX9hhCGfwTWc5HUpLYDodAvwzoe9evKIKjs3A": {
+          "HelloLambdaVersiondAaZJekrZf1kkQjI0PGSGyd6TI7WgM1ADNMCObqfbhY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "HelloLambdaFunction"
               },
-              "CodeSha256": "6P0yjTYxEt1ZWwnmcVtg7h76CAe/03TYZePFrD0Y8XQ="
+              "CodeSha256": "zJyag2ehjVgZOK/uC9u3CPgZGSPuJGqrKBqpyNqcwc8="
             }
           },
-          "GetHeadlinesLambdaVersionmonfALMjzDGn7hlrOxua0JiUiNVSyScbKlqJJa7ra9I": {
+          "GetHeadlinesLambdaVersionQTpSYq4KtGL8nbGN8NuCgUcoWwqDpeeTqimNWCcoZXw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetHeadlinesLambdaFunction"
               },
-              "CodeSha256": "6P0yjTYxEt1ZWwnmcVtg7h76CAe/03TYZePFrD0Y8XQ="
+              "CodeSha256": "zJyag2ehjVgZOK/uC9u3CPgZGSPuJGqrKBqpyNqcwc8="
             }
           },
           "HttpApi": {
@@ -572,7 +566,7 @@
           "HelloLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "HelloLambdaVersionPqzXysX9hhCGfwTWc5HUpLYDodAvwzoe9evKIKjs3A"
+              "Ref": "HelloLambdaVersiondAaZJekrZf1kkQjI0PGSGyd6TI7WgM1ADNMCObqfbhY"
             },
             "Export": {
               "Name": "sls-headlineservice-dev-HelloLambdaFunctionQualifiedArn"
@@ -581,7 +575,7 @@
           "GetHeadlinesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetHeadlinesLambdaVersionmonfALMjzDGn7hlrOxua0JiUiNVSyScbKlqJJa7ra9I"
+              "Ref": "GetHeadlinesLambdaVersionQTpSYq4KtGL8nbGN8NuCgUcoWwqDpeeTqimNWCcoZXw"
             },
             "Export": {
               "Name": "sls-headlineservice-dev-GetHeadlinesLambdaFunctionQualifiedArn"
@@ -732,16 +726,13 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "HelloLambdaVersionPqzXysX9hhCGfwTWc5HUpLYDodAvwzoe9evKIKjs3A"
+        "versionLogicalId": "HelloLambdaVersiondAaZJekrZf1kkQjI0PGSGyd6TI7WgM1ADNMCObqfbhY"
       },
       "getHeadlines": {
         "handler": "s_getHeadlines.handler",
         "events": [
           {
-            "httpApi": {
-              "method": "GET",
-              "path": "/headlines"
-            },
+            "httpApi": "GET /headlines",
             "resolvedMethod": "GET",
             "resolvedPath": "/headlines"
           }
@@ -752,7 +743,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "GetHeadlinesLambdaVersionmonfALMjzDGn7hlrOxua0JiUiNVSyScbKlqJJa7ra9I"
+        "versionLogicalId": "GetHeadlinesLambdaVersionQTpSYq4KtGL8nbGN8NuCgUcoWwqDpeeTqimNWCcoZXw"
       }
     },
     "configValidationMode": "warn",
@@ -784,7 +775,7 @@
     "artifact": "/Users/jameslipe/OSU/CS_361/headlineService/.serverless/headlineservice.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/headlineservice/dev/1642786716623-2022-01-21T17:38:36.623Z",
+    "artifactDirectoryName": "serverless/headlineservice/dev/1642798519296-2022-01-21T20:55:19.296Z",
     "artifact": "headlineservice.zip"
   }
 }
