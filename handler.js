@@ -30,7 +30,9 @@ module.exports.getHeadlines = async (event) => {
 
   const params = {
     TableName: "361_headlines",
+    IndexName: "SourceTime",
     KeyConditionExpression: "#source = :source",
+    ScanIndexForward: false,
     ExpressionAttributeNames: {
       "#source": "source"
     },
