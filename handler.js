@@ -1,7 +1,6 @@
 'use strict';
 
 const AWS = require('aws-sdk');
-const database = require('mime-db');
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 
