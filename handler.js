@@ -24,31 +24,76 @@ module.exports.hello = async (event) => {
 
 module.exports.getHeadlines = async (event) => {
   const queryString = event.queryStringParameters
-  const source = queryString["source"] || "NY Times"
-  console.log("Source", source)
+  const sources = queryString["sources"] || "NY Times"
+  const sourceArray = sources.split(",")
 
+  const payload = []
 
-  const params = {
-    TableName: "361_headlines",
-    IndexName: "SourceTime",
-    KeyConditionExpression: "#source = :source",
-    ScanIndexForward: false,
-    ExpressionAttributeNames: {
-      "#source": "source"
-    },
-    ExpressionAttributeValues: {
-      ":source": source
+  for (const source of sourceArray) {
+    // By default this will query the most recent 1000 headlines
+    const params = {
+      TableName: "361_headlines",
+      IndexName: "SourceTime",
+      KeyConditionExpression: "#source = :source",
+      ScanIndexForward: false,
+      ExpressionAttributeNames: {
+        "#source": "source"
+      },
+      ExpressionAttributeValues: {
+        ":source": source
+      }
     }
+    const results = await docClient.query(params).promise()
+    payload.push(...results.Items)
   }
-
-  const results = await docClient.query(params).promise()
-  console.log(results)
 
   return {
     statusCode: 200,
     body: JSON.stringify(
       {
-        items: results.Items
+        items: payload
+      }
+    )
+  }
+}
+
+module.exports.generateQuiz = async (event) => {
+  const queryString = event.queryStringParameters
+  const sources = queryString["sources"] || "NY Times"
+  const sourceArray = sources.split(",")
+  const limit = queryString["limit"]
+
+  const payload = []
+
+  for (const source of sourceArray) {
+    // By default this will query the most recent 1000 headlines
+    const params = {
+      TableName: "361_headlines",
+      IndexName: "SourceTime",
+      KeyConditionExpression: "#source = :source",
+      ScanIndexForward: false,
+      ExpressionAttributeNames: {
+        "#source": "source"
+      },
+      ExpressionAttributeValues: {
+        ":source": source
+      }
+    }
+    const results = await docClient.query(params).promise()
+    // https://stackoverflow.com/questions/19269545/how-to-get-a-number-of-random-elements-from-an-array
+    // Shuffle array
+    const shuffled = results.Items.sort(() => 0.5 - Math.random());
+
+    // Get sub-array of elements
+    const selected = shuffled.slice(0, limit);
+    payload.push(...selected)
+  }
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(
+      {
+        items: payload.sort(() => 0.5 - Math.random()) // Returning in a random order
       }
     )
   }

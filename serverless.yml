@@ -85,6 +85,10 @@ functions:
     handler: handler.getHeadlines
     events:
       - httpApi: 'GET /headlines'
+  generateQuiz:
+    handler: handler.generateQuiz
+    events:
+      - httpApi: 'GET /headlines/quiz'
 
 plugins:
   - serverless-offline
