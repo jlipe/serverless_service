@@ -25,6 +25,7 @@ module.exports.hello = async (event) => {
 module.exports.getHeadlines = async (event) => {
   const queryString = event.queryStringParameters
   const sources = queryString["sources"] || "NY Times"
+  const limit = queryString["limit"] || 5
   const sourceArray = sources.split(",")
 
   const payload = []
@@ -36,6 +37,7 @@ module.exports.getHeadlines = async (event) => {
       IndexName: "SourceTime",
       KeyConditionExpression: "#source = :source",
       ScanIndexForward: false,
+      Limit: limit,
       ExpressionAttributeNames: {
         "#source": "source"
       },

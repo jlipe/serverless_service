@@ -238,7 +238,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/headlineservice/dev/1646080219092-2022-02-28T20:30:19.092Z/headlineservice.zip"
+          "S3Key": "serverless/headlineservice/dev/1646080760182-2022-02-28T20:39:20.182Z/headlineservice.zip"
         },
         "Handler": "s_hello.handler",
         "Runtime": "nodejs12.x",
@@ -263,7 +263,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/headlineservice/dev/1646080219092-2022-02-28T20:30:19.092Z/headlineservice.zip"
+          "S3Key": "serverless/headlineservice/dev/1646080760182-2022-02-28T20:39:20.182Z/headlineservice.zip"
         },
         "Handler": "s_getHeadlines.handler",
         "Runtime": "nodejs12.x",
@@ -288,7 +288,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/headlineservice/dev/1646080219092-2022-02-28T20:30:19.092Z/headlineservice.zip"
+          "S3Key": "serverless/headlineservice/dev/1646080760182-2022-02-28T20:39:20.182Z/headlineservice.zip"
         },
         "Handler": "s_generateQuiz.handler",
         "Runtime": "nodejs12.x",
@@ -306,34 +306,34 @@
         "GenerateQuizLogGroup"
       ]
     },
-    "HelloLambdaVersion9dx7fs0ZHN6aoCRCyVd1P5q2mCeFCtiMRtApbzhLg": {
+    "HelloLambdaVersionBsICSqmaGLUafRdE9vWMbwAmUyd8p4XGHoDJihXnE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "HelloLambdaFunction"
         },
-        "CodeSha256": "h97X5FU3+KyGQrVbLDdnjWq0CKJqxYNoL/t1rDR6KSY="
+        "CodeSha256": "eKIGOUhVmkOz/VrKXYlIz25dTQHDtnWS+R/W/Pw/oLo="
       }
     },
-    "GetHeadlinesLambdaVersionlAeXzrs2v7fltQz8nfa7gdWU5CURtUqCax7Qffxe4": {
+    "GetHeadlinesLambdaVersionQJvJkTZKKVPKurVawCoz3WkgvN6XzzSXaQnf92hE23s": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetHeadlinesLambdaFunction"
         },
-        "CodeSha256": "h97X5FU3+KyGQrVbLDdnjWq0CKJqxYNoL/t1rDR6KSY="
+        "CodeSha256": "eKIGOUhVmkOz/VrKXYlIz25dTQHDtnWS+R/W/Pw/oLo="
       }
     },
-    "GenerateQuizLambdaVersionjsChnKDpe4Z0gs4MbhKiiOyifHMHwwrxILzibhdvdo": {
+    "GenerateQuizLambdaVersionxj5jGbdLrcVTwIptKgHiecP8VW7mmhxE29jP5y4SRg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GenerateQuizLambdaFunction"
         },
-        "CodeSha256": "h97X5FU3+KyGQrVbLDdnjWq0CKJqxYNoL/t1rDR6KSY="
+        "CodeSha256": "eKIGOUhVmkOz/VrKXYlIz25dTQHDtnWS+R/W/Pw/oLo="
       }
     },
     "HttpApi": {
@@ -678,7 +678,7 @@
     "HelloLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "HelloLambdaVersion9dx7fs0ZHN6aoCRCyVd1P5q2mCeFCtiMRtApbzhLg"
+        "Ref": "HelloLambdaVersionBsICSqmaGLUafRdE9vWMbwAmUyd8p4XGHoDJihXnE"
       },
       "Export": {
         "Name": "sls-headlineservice-dev-HelloLambdaFunctionQualifiedArn"
@@ -687,7 +687,7 @@
     "GetHeadlinesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetHeadlinesLambdaVersionlAeXzrs2v7fltQz8nfa7gdWU5CURtUqCax7Qffxe4"
+        "Ref": "GetHeadlinesLambdaVersionQJvJkTZKKVPKurVawCoz3WkgvN6XzzSXaQnf92hE23s"
       },
       "Export": {
         "Name": "sls-headlineservice-dev-GetHeadlinesLambdaFunctionQualifiedArn"
@@ -696,7 +696,7 @@
     "GenerateQuizLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GenerateQuizLambdaVersionjsChnKDpe4Z0gs4MbhKiiOyifHMHwwrxILzibhdvdo"
+        "Ref": "GenerateQuizLambdaVersionxj5jGbdLrcVTwIptKgHiecP8VW7mmhxE29jP5y4SRg"
       },
       "Export": {
         "Name": "sls-headlineservice-dev-GenerateQuizLambdaFunctionQualifiedArn"
