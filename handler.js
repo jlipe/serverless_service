@@ -50,9 +50,7 @@ module.exports.getHeadlines = async (event) => {
   return {
     statusCode: 200,
     body: JSON.stringify(
-      {
-        items: payload
-      }
+        payload
     )
   }
 }
@@ -89,12 +87,12 @@ module.exports.generateQuiz = async (event) => {
     payload.push(...selected)
   }
 
+  payload.sort(() => 0.5 - Math.random()) // Returning in a random order
+
   return {
     statusCode: 200,
     body: JSON.stringify(
-      {
-        items: payload.sort(() => 0.5 - Math.random()) // Returning in a random order
-      }
+      payload
     )
   }
 }

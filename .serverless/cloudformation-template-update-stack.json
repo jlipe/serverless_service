@@ -83,6 +83,12 @@
         "LogGroupName": "/aws/lambda/headlineservice-dev-getHeadlines"
       }
     },
+    "GenerateQuizLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/headlineservice-dev-generateQuiz"
+      }
+    },
     "IamRoleLambdaExecution": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -210,6 +216,12 @@
                         "GetHeadlinesLogGroup",
                         "Arn"
                       ]
+                    },
+                    {
+                      "Fn::GetAtt": [
+                        "GenerateQuizLogGroup",
+                        "Arn"
+                      ]
                     }
                   ]
                 }
@@ -226,7 +238,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/headlineservice/dev/1642798519296-2022-01-21T20:55:19.296Z/headlineservice.zip"
+          "S3Key": "serverless/headlineservice/dev/1646080219092-2022-02-28T20:30:19.092Z/headlineservice.zip"
         },
         "Handler": "s_hello.handler",
         "Runtime": "nodejs12.x",
@@ -251,7 +263,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/headlineservice/dev/1642798519296-2022-01-21T20:55:19.296Z/headlineservice.zip"
+          "S3Key": "serverless/headlineservice/dev/1646080219092-2022-02-28T20:30:19.092Z/headlineservice.zip"
         },
         "Handler": "s_getHeadlines.handler",
         "Runtime": "nodejs12.x",
@@ -269,24 +281,59 @@
         "GetHeadlinesLogGroup"
       ]
     },
-    "HelloLambdaVersiondAaZJekrZf1kkQjI0PGSGyd6TI7WgM1ADNMCObqfbhY": {
+    "GenerateQuizLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/headlineservice/dev/1646080219092-2022-02-28T20:30:19.092Z/headlineservice.zip"
+        },
+        "Handler": "s_generateQuiz.handler",
+        "Runtime": "nodejs12.x",
+        "FunctionName": "headlineservice-dev-generateQuiz",
+        "MemorySize": 512,
+        "Timeout": 6,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "GenerateQuizLogGroup"
+      ]
+    },
+    "HelloLambdaVersion9dx7fs0ZHN6aoCRCyVd1P5q2mCeFCtiMRtApbzhLg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "HelloLambdaFunction"
         },
-        "CodeSha256": "zJyag2ehjVgZOK/uC9u3CPgZGSPuJGqrKBqpyNqcwc8="
+        "CodeSha256": "h97X5FU3+KyGQrVbLDdnjWq0CKJqxYNoL/t1rDR6KSY="
       }
     },
-    "GetHeadlinesLambdaVersionQTpSYq4KtGL8nbGN8NuCgUcoWwqDpeeTqimNWCcoZXw": {
+    "GetHeadlinesLambdaVersionlAeXzrs2v7fltQz8nfa7gdWU5CURtUqCax7Qffxe4": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetHeadlinesLambdaFunction"
         },
-        "CodeSha256": "zJyag2ehjVgZOK/uC9u3CPgZGSPuJGqrKBqpyNqcwc8="
+        "CodeSha256": "h97X5FU3+KyGQrVbLDdnjWq0CKJqxYNoL/t1rDR6KSY="
+      }
+    },
+    "GenerateQuizLambdaVersionjsChnKDpe4Z0gs4MbhKiiOyifHMHwwrxILzibhdvdo": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "GenerateQuizLambdaFunction"
+        },
+        "CodeSha256": "h97X5FU3+KyGQrVbLDdnjWq0CKJqxYNoL/t1rDR6KSY="
       }
     },
     "HttpApi": {
@@ -492,6 +539,81 @@
       },
       "DependsOn": "HttpApiIntegrationGetHeadlines"
     },
+    "GenerateQuizLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "GenerateQuizLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationGenerateQuiz": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "GenerateQuizLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 6500
+      }
+    },
+    "HttpApiRouteGetHeadlinesQuiz": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "GET /headlines/quiz",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationGenerateQuiz"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationGenerateQuiz"
+    },
     "CWLSubFilterHelloLogGroupUsEast1": {
       "Type": "AWS::Logs::SubscriptionFilter",
       "Properties": {
@@ -509,6 +631,16 @@
         "FilterPattern": "?\"REPORT RequestId: \" ?\"SERVERLESS_ENTERPRISE\"",
         "LogGroupName": {
           "Ref": "GetHeadlinesLogGroup"
+        }
+      }
+    },
+    "CWLSubFilterGenerateQuizLogGroupUsEast1": {
+      "Type": "AWS::Logs::SubscriptionFilter",
+      "Properties": {
+        "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:44056344-8e1c-418c-b334-ba5fa4002204#w1VMj9cCCNJ6XrbN7g#headlineservice#dev",
+        "FilterPattern": "?\"REPORT RequestId: \" ?\"SERVERLESS_ENTERPRISE\"",
+        "LogGroupName": {
+          "Ref": "GenerateQuizLogGroup"
         }
       }
     },
@@ -546,7 +678,7 @@
     "HelloLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "HelloLambdaVersiondAaZJekrZf1kkQjI0PGSGyd6TI7WgM1ADNMCObqfbhY"
+        "Ref": "HelloLambdaVersion9dx7fs0ZHN6aoCRCyVd1P5q2mCeFCtiMRtApbzhLg"
       },
       "Export": {
         "Name": "sls-headlineservice-dev-HelloLambdaFunctionQualifiedArn"
@@ -555,10 +687,19 @@
     "GetHeadlinesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetHeadlinesLambdaVersionQTpSYq4KtGL8nbGN8NuCgUcoWwqDpeeTqimNWCcoZXw"
+        "Ref": "GetHeadlinesLambdaVersionlAeXzrs2v7fltQz8nfa7gdWU5CURtUqCax7Qffxe4"
       },
       "Export": {
         "Name": "sls-headlineservice-dev-GetHeadlinesLambdaFunctionQualifiedArn"
+      }
+    },
+    "GenerateQuizLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "GenerateQuizLambdaVersionjsChnKDpe4Z0gs4MbhKiiOyifHMHwwrxILzibhdvdo"
+      },
+      "Export": {
+        "Name": "sls-headlineservice-dev-GenerateQuizLambdaFunctionQualifiedArn"
       }
     },
     "HttpApiId": {
