@@ -33,13 +33,6 @@ provider:
         - Effect: Allow
           Action: # Gives permission to DynamoDB tables in a specific region
             - dynamodb:*
-            # - dynamodb:DescribeTable
-            # - dynamodb:Query
-            # - dynamodb:Scan
-            # - dynamodb:GetItem
-            # - dynamodb:PutItem
-            # - dynamodb:UpdateItem
-            # - dynamodb:DeleteItem
           Resource: '*'
 
 # you can overwrite defaults here
@@ -77,10 +70,6 @@ provider:
 #    - include-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
-    events:
-      - httpApi: 'GET /hello'
   getHeadlines:
     handler: handler.getHeadlines
     events:

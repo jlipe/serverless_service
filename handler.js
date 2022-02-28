@@ -80,12 +80,20 @@ module.exports.generateQuiz = async (event) => {
       }
     }
     const results = await docClient.query(params).promise()
-    // https://stackoverflow.com/questions/19269545/how-to-get-a-number-of-random-elements-from-an-array
-    // Shuffle array
-    const shuffled = results.Items.sort(() => 0.5 - Math.random());
-
-    // Get sub-array of elements
-    const selected = shuffled.slice(0, limit);
+    
+    // Choosing a random set of elements from array
+    const selected = []
+    const chosenIndexes = new Set()
+    let randN
+    while (selected.length < limit) {
+      randN = Math.floor(Math.random() * results.Items.length)
+      if (chosenIndexes.has(randN)) {
+        continue
+      } else {
+        selected.push(results.Items[randN])
+        chosenIndexes.add(randN)
+      }
+    }
     payload.push(...selected)
   }
 
@@ -93,7 +101,7 @@ module.exports.generateQuiz = async (event) => {
     statusCode: 200,
     body: JSON.stringify(
       {
-        items: payload.sort(() => 0.5 - Math.random()) // Returning in a random order
+        items: payload.sort((a, b) => 0.5 - Math.random()) // Returning in a random order
       }
     )
   }
