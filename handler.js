@@ -25,6 +25,7 @@ module.exports.hello = async (event) => {
 module.exports.getHeadlines = async (event) => {
   const queryString = event.queryStringParameters
   const sources = queryString["sources"] || "NY Times"
+  const limit = queryString["limit"] || 5
   const sourceArray = sources.split(",")
 
   const payload = []
@@ -36,6 +37,7 @@ module.exports.getHeadlines = async (event) => {
       IndexName: "SourceTime",
       KeyConditionExpression: "#source = :source",
       ScanIndexForward: false,
+      Limit: limit,
       ExpressionAttributeNames: {
         "#source": "source"
       },
@@ -50,9 +52,7 @@ module.exports.getHeadlines = async (event) => {
   return {
     statusCode: 200,
     body: JSON.stringify(
-      {
-        items: payload
-      }
+        payload
     )
   }
 }
@@ -97,12 +97,12 @@ module.exports.generateQuiz = async (event) => {
     payload.push(...selected)
   }
 
+  payload.sort(() => 0.5 - Math.random()) // Returning in a random order
+
   return {
     statusCode: 200,
     body: JSON.stringify(
-      {
-        items: payload.sort((a, b) => 0.5 - Math.random()) // Returning in a random order
-      }
+      payload
     )
   }
 }
